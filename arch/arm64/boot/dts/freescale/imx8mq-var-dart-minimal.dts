@@ -325,5 +325,4 @@
 
 &snvs_pwrkey {
 	status = "okay";
-	/delete-property/ clocks;
 };
