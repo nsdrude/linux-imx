@@ -1352,6 +1352,14 @@
 	pad-wakeup = <IMX8QM_SPI3_CS1 4 21>;
 };
 
+&lsio_gpio5 {
+	/* Enable wakeup-source from all gpio-keys*/
+	/* total pad wakeup number in gpio5 */
+	pad-wakeup-num = <4>;
+	/*            KEY_BACK,                   KEY_DOWN,                    KEY_HOME,                   KEY_UP */
+	pad-wakeup = <IMX8QM_USDHC1_DATA4 4 19>, <IMX8QM_USDHC1_STROBE 4 23>, <IMX8QM_USDHC1_DATA5 4 20>, <IMX8QM_USDHC1_DATA6 4 21>;
+};
+
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;

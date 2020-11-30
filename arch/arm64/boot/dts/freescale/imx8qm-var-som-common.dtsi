@@ -1173,6 +1173,14 @@
 	};
 };
 
+&lsio_gpio1 {
+	/* Enable wakeup-source from all pca9534 gpio-keys*/
+	/* total pad wakeup number in gpio1 */
+	pad-wakeup-num = <1>;
+	/* IMX8QM_MIPI_CSI0_MCLK_OUT, SC_PAD_WAKEUP_LOW_LVL, LINE 24 */
+	pad-wakeup = <IMX8QM_MIPI_CSI0_MCLK_OUT 4 24>;
+};
+
 &lsio_gpio2 {
 	/* Enable wakeup-source from resistive touch*/
 	/* total pad wakeup number in gpio2 */
