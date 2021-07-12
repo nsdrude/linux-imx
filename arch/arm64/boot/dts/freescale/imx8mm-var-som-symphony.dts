@@ -198,6 +198,12 @@
 		>;
 	};
 
+	pinctrl_uart3_rs485: uart3rs485 {
+		fsl,pins = <
+			MX8MM_IOMUXC_SPDIF_TX_GPIO5_IO3		0x140 /* symphony j18.2 */
+		>;
+	};
+
 	pinctrl_uart3: uart3grp {
 		fsl,pins = <
 			MX8MM_IOMUXC_UART3_RXD_UART3_DCE_RX		0x140
@@ -450,7 +456,9 @@
 /* Header */
 &uart3 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_uart3>;
+	pinctrl-0 = <&pinctrl_uart3>, <&pinctrl_uart3_rs485>;
+	rts-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
+	linux,rs485-enabled-at-boot-time;
 	status = "okay";
 };
 
