@@ -391,6 +391,7 @@ enum drm_bus_flags {
 	 * Data is driven on the rising edge of the pixel clock
 	 */
 	DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE = BIT(2),
+	DRM_BUS_FLAG_PIXDATA_POSEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
 
 	/**
 	 * @DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE:
@@ -398,6 +399,7 @@ enum drm_bus_flags {
 	 * Data is driven on the falling edge of the pixel clock
 	 */
 	DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE = BIT(3),
+	DRM_BUS_FLAG_PIXDATA_NEGEDGE = DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
 
 	/**
 	 * @DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE:
