@@ -443,6 +443,16 @@
 	clock-frequency = <100000>;
 	status = "okay";
 
+	/* NFC PN527 */
+	pn547: pn547@28 {
+		compatible = "nxp,pn547";
+		reg = <0x28>;
+		pinctrl-0 = <&pinctrl_pn547>;
+		clock-frequency = <400000>;
+		interrupt-gpios = <&lsio_gpio0 16 GPIO_ACTIVE_HIGH>;
+		enable-gpios    = <&lsio_gpio3 14 GPIO_ACTIVE_HIGH>;
+	};
+
 	wm8904: codec@1a {
 		compatible = "wlf,wm8904";
 		reg = <0x1a>;
@@ -664,6 +674,13 @@
 		pinctrl_hdmi_i2c: hdmii2cgrp  {
 			fsl,pins = <
 				IMX8QM_MIPI_DSI1_GPIO0_00_LSIO_GPIO1_IO22			0x00000041
+			>;
+		};
+
+		pinctrl_pn547: i2c1_pn547grp {
+			fsl,pins = <
+				IMX8QM_SAI1_RXFS_LSIO_GPIO3_IO14			0x04000021
+				IMX8QM_GPT0_COMPARE_LSIO_GPIO0_IO16			0x02000021
 			>;
 		};
 
