@@ -10,6 +10,8 @@ config SENSORS_LIS3LV02D
 	depends on INPUT
 	select INPUT_POLLDEV
 
+source "drivers/misc/nxp-pn5xx/Kconfig"
+
 config AD525X_DPOT
 	tristate "Analog Devices Digital Potentiometers"
 	depends on (I2C || SPI) && SYSFS
