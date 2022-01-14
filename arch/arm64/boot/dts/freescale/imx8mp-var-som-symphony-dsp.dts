@@ -1,0 +1,43 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright 2019 NXP
+ * Copyright 2020-2021 Variscite Ltd.
+ */
+
+#include "imx8mp-var-som-symphony.dts"
+
+/ {
+	model = "Variscite VAR-SOM-MX8M-PLUS DSP on Symphony-Board";
+};
+
+&dsp {
+	compatible = "fsl,imx8mp-hifi4";
+	reg = <0x0 0x3B6E8000 0x0 0x88000>;
+	pinctrl-names = "default";
+	assigned-clocks = <&clk IMX8MP_CLK_SAI3>;
+	assigned-clock-parents = <&clk IMX8MP_AUDIO_PLL1_OUT>;
+	assigned-clock-rates = <12288000>;
+	clocks = <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_OCRAMA_IPG>,
+			 <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_DSP_ROOT>,
+			 <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_DSPDBG_ROOT>,
+			 <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_SAI3_IPG>,
+			 <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_SAI3_MCLK1>,
+			 <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_SDMA3_ROOT>,
+			 <&clk IMX8MP_CLK_I2C3_ROOT>,
+			 <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_ASRC_IPG>,
+			 <&audio_blk_ctrl IMX8MP_CLK_AUDIO_BLK_CTRL_SAI3_MCLK1>,
+			 <&clk IMX8MP_CLK_UART4_ROOT>;
+	clock-names = "dsp_clk1", "dsp_clk2", "dsp_clk3",
+				  "per_clk1", "per_clk2", "per_clk3", "per_clk4", "per_clk5", "per_clk6",
+				  "per_clk7";
+	firmware-name = "imx/dsp/hifi4.bin";
+	power-domains = <&audiomix_pd>;
+	mbox-names = "tx0", "rx0", "rxdb0";
+	mboxes = <&mu2 0 0>,
+			 <&mu2 1 0>,
+			 <&mu2 3 0>;
+	memory-region = <&dsp_vdev0buffer>, <&dsp_vdev0vring0>,
+					<&dsp_vdev0vring1>, <&dsp_reserved>;
+	syscon = <&audio_blk_ctrl>;
+	status = "okay";
+};
