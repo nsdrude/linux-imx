@@ -42,6 +42,11 @@ properties:
       supports an adin PHY (e.g. ADIN1300) or another PHY (e.g. AR8033) at the same
       address, but they require different phy-modes.
 
+  adi,clk_rcvr_125_en:
+    description: |
+      Set GE_CLK_RCVR_125_EN (bit 5 of GE_CLK_CFG), causing the 125 MHz
+      PHY recovered clock (or PLL clock) to be driven at the GP_CLK pin.
+
 examples:
   - |
     ethernet {
