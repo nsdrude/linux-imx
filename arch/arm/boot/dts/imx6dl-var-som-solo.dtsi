@@ -14,6 +14,20 @@
 
 &fec {
 	/delete-property/ phy-reset-on-resume;
+	phy-handle = <&ethphy0>;
+	phy-reset-post-delay = <20>;
+
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		ethphy0: ethernet-phy@7 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <7>;
+			adi,phy-mode-override = "rgmii-id";
+			adi,clk_rcvr_125_en;
+		};
+	};
 };
 
 &reg_arm {
