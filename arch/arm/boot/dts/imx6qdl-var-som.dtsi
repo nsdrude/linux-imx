@@ -265,10 +265,23 @@
 	phy-mode = "rgmii";
 	phy-reset-gpios = <&gpio1 25 0>;
 	phy-reset-duration=<100>;
+	phy-reset-post-delay = <20>;
 	phy-reset-on-resume;
 	assigned-clocks = <&clks IMX6QDL_CLK_ENET_REF>;
 	assigned-clock-rates = <125000000>;
 	status = "okay";
+
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		ethphy0: ethernet-phy@7 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			reg = <7>;
+			adi,phy-mode-override = "rgmii-id";
+			adi,clk_rcvr_125_en;
+		};
+	};
 };
 
 &gpc {
