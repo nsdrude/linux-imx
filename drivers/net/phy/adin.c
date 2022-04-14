@@ -73,6 +73,9 @@
 #define ADIN1300_GE_SOFT_RESET_REG		0xff0c
 #define   ADIN1300_GE_SOFT_RESET		BIT(0)
 
+#define ADIN1300_GE_CLK_CFG			0xff1f
+#define   ADIN1300_GE_CLK_RCVR_125_EN		BIT(5)
+
 #define ADIN1300_GE_RGMII_CFG_REG		0xff23
 #define   ADIN1300_GE_RGMII_RX_MSK		GENMASK(8, 6)
 #define   ADIN1300_GE_RGMII_RX_SEL(x)		\
@@ -420,6 +423,27 @@ static int adin_set_edpd(struct phy_device *phydev, u16 tx_interval)
 			  val);
 }
 
+static int adin_set_clock_config(struct phy_device *phydev)
+{
+	struct device *dev = &phydev->mdio.dev;
+	struct device_node *of_node = dev->of_node;
+	int reg = 0;
+
+	if (of_property_read_bool(of_node, "adi,clk_rcvr_125_en")) {
+		reg = phy_read_mmd(phydev, MDIO_MMD_VEND1, ADIN1300_GE_CLK_CFG);
+
+		reg |= ADIN1300_GE_CLK_RCVR_125_EN;
+
+		phydev_dbg(phydev, "%s: ADIN1300_GE_CLK_CFG = %x\n",
+		           __func__, reg);
+
+		reg = phy_write_mmd(phydev, MDIO_MMD_VEND1,
+			     ADIN1300_GE_CLK_CFG, reg);
+	}
+
+	return reg;
+}
+
 static int adin_get_tunable(struct phy_device *phydev,
 			    struct ethtool_tunable *tuna, void *data)
 {
@@ -465,6 +489,10 @@ static int adin_config_init(struct phy_device *phydev)
 		return rc;
 
 	rc = adin_set_edpd(phydev, ETHTOOL_PHY_EDPD_DFLT_TX_MSECS);
+	if (rc < 0)
+		return rc;
+
+	rc = adin_set_clock_config(phydev);
 	if (rc < 0)
 		return rc;
 
