@@ -607,6 +607,7 @@
 	phy-reset-gpios = <&gpio1 2 GPIO_ACTIVE_LOW>;
 	phy-reset-duration = <100>;
 	phy-reset-post-delay = <100>;
+	phy-reset-gpios-fec2 = <&pca9534 5 GPIO_ACTIVE_LOW>;
 
 	mdio {
 		#address-cells = <1>;
