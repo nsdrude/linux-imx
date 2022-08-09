@@ -176,6 +176,9 @@
 			reg = <5>;
 			at803x,eee-disabled;
 			eee-broken-1000t;
+			reset-gpios = <&pca9534 5 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <10000>;
+			reset-deassert-us = <20000>;
 			vddio-supply = <&vddio0>;
 
 			vddio1: vddio-regulator {
@@ -192,9 +195,6 @@
 	phy-mode = "rgmii";
 	phy-handle = <&ethphy1>;
 	phy-supply = <&reg_fec_phy>;
-	phy-reset-gpios = <&pca9534 5 GPIO_ACTIVE_LOW>;
-	phy-reset-duration = <10>;
-	phy-reset-post-delay = <20>;
 	status = "okay";
 };
 
