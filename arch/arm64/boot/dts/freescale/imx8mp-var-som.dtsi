@@ -22,11 +22,6 @@
 		      <0x1 0x00000000 0 0xc0000000>;
 	};
 
-	reserved-memory {
-		/* CMA region is configured by kernel command line as cma=<size>M */
-		/delete-node/ linux,cma;
-	};
-
 	reg_eqos_phy: regulator-eqos-phy {
 		compatible = "regulator-fixed";
 		regulator-name = "eqos-phy";
