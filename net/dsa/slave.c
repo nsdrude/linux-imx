@@ -2334,7 +2334,7 @@ int dsa_slave_create(struct dsa_port *port)
 	slave_dev->dcbnl_ops = &dsa_slave_dcbnl_ops;
 #endif
 	if (!is_zero_ether_addr(port->mac))
-		ether_addr_copy(slave_dev->dev_addr, port->mac);
+		eth_hw_addr_set(slave_dev, port->mac);
 	else
 		eth_hw_addr_inherit(slave_dev, master);
 	slave_dev->priv_flags |= IFF_NO_QUEUE;
