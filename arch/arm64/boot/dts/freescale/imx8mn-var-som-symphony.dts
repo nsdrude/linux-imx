@@ -233,7 +233,7 @@
 	status = "okay";
 
 	ov5640_mipi1: ov5640_mipi1@3c {
-		status = "okay";
+		status = "disabled";
 		compatible = "ovti,ov5640";
 		reg = <0x3c>;
 		pinctrl-names = "default";
