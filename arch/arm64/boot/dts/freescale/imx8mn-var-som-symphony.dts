@@ -339,6 +339,23 @@
 	scl-gpios = <&gpio5 20 GPIO_ACTIVE_HIGH>;
 	sda-gpios = <&gpio5 21 GPIO_ACTIVE_HIGH>;
 	status = "okay";
+	
+	gt911@5d {
+			compatible = "goodix,gt911";
+			reg = <0x5d>; /* I2C address of GT911. This can also be xBB or x28 or x29 */
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_touch>; /* This controls the backlight which we are not using (pwmB) */
+			interrupt-parent = <&gpio5>; 
+			interrupts = <26 IRQ_TYPE_EDGE_RISING>;
+			irq-gpios = <&gpio5 26 GPIO_ACTIVE_HIGH>; /* This pin should be active when bluetooth function is disabled */ 
+			reset-gpios = <&gpio5 25 GPIO_ACTIVE_HIGH>; /* This pin should be active when bluetooth function is disabled */ 
+                       touchscreen-size-x = <800>; /* pixel size width */
+		        touchscreen-size-y = <480>; /* pixel size height */
+		        touchscreen-inverted-x; /* dont know what this means */
+		        touchscreen-inverted-y; /* This pin should be active when bluetooth function is disabled */ 
+		        status = "okay";
+			wakeup-source;
+	};
 };
 
 &mipi_csi_1 {
