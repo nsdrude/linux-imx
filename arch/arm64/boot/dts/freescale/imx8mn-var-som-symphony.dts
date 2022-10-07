@@ -309,7 +309,7 @@
 &i2c3 {
 	/* Capacitive touch controller */
 	ft5x06_ts: ft5x06_ts@38 {
-		status = "okay";
+		status = "disabled";
 		compatible = "edt,edt-ft5206";
 		reg = <0x38>;
 		pinctrl-names = "default";
