@@ -94,6 +94,14 @@
 };
 
 &iomuxc {
+
+	pinctrl_touch: goodixtouch{
+		fsl,pins = <
+			MX8MN_IOMUXC_UART3_RXD_GPIO5_IO26         	0x16 /*do not know it is 0x16 or not*/
+			MX8MN_IOMUXC_UART2_TXD_GPIO5_IO25		0x16 /*do not know it is 0x16 or not*/
+                >;
+	};
+
 	pinctrl_captouch: captouchgrp {
 		fsl,pins = <
 			MX8MN_IOMUXC_SPDIF_RX_GPIO5_IO4			0xc0
