@@ -408,7 +408,7 @@
 &uart3 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_uart3>;
-	status = "okay";
+	status = "disabled";
 };
 
 /* Console */
