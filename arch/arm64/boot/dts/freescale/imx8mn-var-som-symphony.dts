@@ -384,7 +384,7 @@
 };
 
 &pwm1 {
-	status = "okay";
+	status = "disabled";
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm1>;
 };
