@@ -88,7 +88,7 @@
 	cs-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>,
 		   <&gpio1  0 GPIO_ACTIVE_LOW>,
 		   <&gpio2 19 GPIO_ACTIVE_LOW>;
-	status = "okay";
+	status = "disabled";
 
 	/* Resistive touch controller */
 	ads7846@0 {
