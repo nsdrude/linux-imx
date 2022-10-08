@@ -647,7 +647,7 @@
 	status = "okay";
 
 	wm8904: audio-codec@1a {
-		status = "okay";
+		status = "disabled";
 		compatible = "wlf,wm8904";
 		reg = <0x1a>;
 		clocks = <&clk IMX8MN_CLK_SAI5_ROOT>;
