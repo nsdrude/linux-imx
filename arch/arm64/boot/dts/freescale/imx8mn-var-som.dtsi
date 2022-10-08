@@ -136,7 +136,7 @@
 		reg = <2>;
 		compatible = "var,spidev";
 		spi-max-frequency = <12000000>;
-		status = "okay";
+		status = "disabled";
 	};
 };
 
