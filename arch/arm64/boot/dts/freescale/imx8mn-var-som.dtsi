@@ -445,7 +445,7 @@
 	sda-gpios = <&gpio5 15 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 
-	dsi_lvds_bridge: sn65dsi84@2c {
+	/* dsi_lvds_bridge: sn65dsi84@2c {
 		compatible = "ti,sn65dsi83";
 		reg = <0x2c>;
 		ti,dsi-lanes = <4>;
@@ -482,7 +482,44 @@
 				remote-endpoint = <&mipi_dsi_out>;
 			};
 		};
-	};
+	};*/
+	
+	dsi_lvds_bridge: sn65dsi84@2c {
+       	compatible = "ti,sn65dsi83"; /* done */
+    	   	reg = <0x2c>; /* done */
+ 	   	ti,dsi-lanes = <1>; /*  */
+   	     	ti,lvds-format = <2>; /* done, format 1 <1> must be selected when RGB888(24bpp) data is received from DSI */
+   	     	ti,lvds-bpp = <24>; /* done, 24 bits of data each lane */
+        	ti,lvds-channels = <1>; /* done, one main channel */
+        	ti,width-mm = <108>; /* done, pixel active area width */
+        	ti,height-mm = <65>; /* done, pixel active area height */
+        	enable-gpios = <&gpio2 11 GPIO_ACTIVE_HIGH>; /* done, dont touch this */
+        	pinctrl-names = "default"; /* done */
+        	pinctrl-0 = <&pinctrl_lvds>; /* done */
+        	status = "okay"; /* done, put "disable" if you want to disable... but we do not */
+        	display-timings {
+            lvds {
+                clock-frequency = <25000000>; /* done, changed from 33MHz to 25MHz */
+                hactive = <800>; /* done, unchanged pixel height */
+                vactive = <480>; /* done, unchanged pixel height */
+                hback-porch = <8>; /* done, changed hback from 40 to 8 */
+                hfront-porch = <8>; /* done, changed hfront from 40 to 8 */
+                vback-porch = <8>; /* done, changed vback from 29 to 8 */
+                vfront-porch = <8>; /* done, changed vfront from 13 to 8 */
+                hsync-len = <4>; /* done, changed hsync from 48 to 4. Related to pulse width */
+                vsync-len = <4>; /* done, changed vsync from 3 to 4. Related to pulse width */
+                hsync-active = <0>; /* done, unchanged but may need to test */
+                vsync-active = <0>; /* done, unchanged but may need to test */
+                de-active = <1>; /* done, unchanged but may need to test */
+                pixelclk-active = <0>; /* done, unchanged but may need to test */
+            };
+        };
+        port {
+            dsi_lvds_bridge_in: endpoint {
+                remote-endpoint = <&mipi_dsi_out>;
+            	};
+             };
+        };
 
 	pmic@4b {
 		status = "okay";
