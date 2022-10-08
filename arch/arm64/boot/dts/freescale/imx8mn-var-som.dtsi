@@ -79,7 +79,7 @@
 };
 
 &cameradev {
-	status = "okay";
+	status = "disabled";
 };
 
 &ecspi1 {
