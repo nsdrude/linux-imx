@@ -348,9 +348,9 @@
 	sda-gpios = <&gpio5 21 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 	
-	gt911@5d {
+	gt911@14 {
 			compatible = "goodix,gt911";
-			reg = <0x5d>; /* I2C address of GT911. This can also be xBB or x28 or x29 */
+			reg = <0x14>; /* I2C address of GT911. This can also be xBB or x28 or x29 */
 			pinctrl-names = "default";
 			pinctrl-0 = <&pinctrl_touch>; /* This controls the backlight which we are not using (pwmB) */
 			interrupt-parent = <&gpio5>; 
