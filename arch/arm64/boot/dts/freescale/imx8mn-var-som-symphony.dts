@@ -93,6 +93,24 @@
 	};
 };
 
+&gpio5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_vw_lvds>;
+
+	vw-lvds-backlight {
+		gpio-hog;
+		gpios = <24 GPIO_ACTIVE_HIGH>;
+		output-high;
+	};
+
+	vw-lvds-reset {
+		gpio-hog;
+		gpios = <27 GPIO_ACTIVE_HIGH>;
+		output-high;
+	};
+};
+
+
 &iomuxc {
 
 	pinctrl_touch: goodixtouch{
@@ -100,6 +118,13 @@
 			MX8MN_IOMUXC_UART3_RXD_GPIO5_IO26         	0x16 /*do not know it is 0x16 or not*/
 			MX8MN_IOMUXC_UART2_TXD_GPIO5_IO25		0x16 /*do not know it is 0x16 or not*/
                 >;
+	};
+
+	pinctrl_vw_lvds: vw_lvds {
+		fsl,pins = <
+		MX8MN_IOMUXC_UART2_RXD_GPIO5_IO24		0x16 /* backlight */
+		MX8MN_IOMUXC_UART3_TXD_GPIO5_IO27		0x16 /* reset */
+		>;
 	};
 
 	pinctrl_captouch: captouchgrp {
