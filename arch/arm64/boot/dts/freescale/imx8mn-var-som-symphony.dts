@@ -64,12 +64,21 @@
 	leds {
 		compatible = "gpio-leds";
 		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_leds>;
 
-		heartbeat {
-			label = "Heartbeat";
-			gpios = <&pca9534 0 GPIO_ACTIVE_HIGH>;
-			linux,default-trigger = "heartbeat";
+		led1 {
+			label = "led1";
+			gpios = <&gpio5 11 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-on";
 		};
+
+		led2 {
+			label = "led2";
+			gpios = <&gpio5 10 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-on";
+		};
+
 	};
 
 	reg_usdhc2_vmmc: regulator-usdhc2 {
@@ -112,6 +121,13 @@
 
 
 &iomuxc {
+
+	pinctrl_leds: leds {
+		fsl,pins = <
+			MX8MN_IOMUXC_ECSPI2_MOSI_GPIO5_IO11         	0x16 /*do not know it is 0x16 or not*/
+			MX8MN_IOMUXC_ECSPI2_SCLK_GPIO5_IO10		0x16 /*do not know it is 0x16 or not*/
+                >;
+	};
 
 	pinctrl_touch: goodixtouch{
 		fsl,pins = <
