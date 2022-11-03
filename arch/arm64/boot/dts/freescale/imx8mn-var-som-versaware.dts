@@ -1,0 +1,210 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright 2019 NXP
+ * Copyright 2019-2020 Variscite Ltd.
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/usb/pd.h>
+#include "imx8mn-var-som.dtsi"
+
+/ {
+	model = "Variscite VAR-SOM-MX8M-NANO on Symphony-Board 1.4a and above VersAware";
+	compatible = "variscite,var-som-mx8mn", "fsl,imx8mn";
+
+	chosen {
+		stdout-path = &uart4;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_leds>;
+
+		led1 {
+			label = "led1";
+			gpios = <&gpio5 11 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-on";
+		};
+
+		led2 {
+			label = "led2";
+			gpios = <&gpio5 10 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "default-on";
+		};
+
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_keys>;
+
+		back {
+			label = "Back";
+			gpios = <&gpio5 12 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_BACK>;
+			wakeup-source;
+		};
+	};
+};
+
+&gpio5 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_vw_lvds>;
+
+	vw-lvds-backlight {
+		gpio-hog;
+		gpios = <24 GPIO_ACTIVE_HIGH>;
+		output-high;
+	};
+
+	vw-lvds-reset {
+		gpio-hog;
+		gpios = <27 GPIO_ACTIVE_HIGH>;
+		output-high;
+	};
+};
+
+
+&iomuxc {
+	pinctrl_leds: leds {
+		fsl,pins = <
+			MX8MN_IOMUXC_ECSPI2_MOSI_GPIO5_IO11         	0x16
+			MX8MN_IOMUXC_ECSPI2_SCLK_GPIO5_IO10		0x16
+                >;
+	};
+
+	pinctrl_touch: goodixtouch{
+		fsl,pins = <
+			MX8MN_IOMUXC_UART3_RXD_GPIO5_IO26         	0x16
+			MX8MN_IOMUXC_UART2_TXD_GPIO5_IO25		0x16
+                >;
+	};
+
+	pinctrl_vw_lvds: vw_lvds {
+		fsl,pins = <
+		MX8MN_IOMUXC_UART2_RXD_GPIO5_IO24		0x16 /* backlight */
+		MX8MN_IOMUXC_UART3_TXD_GPIO5_IO27		0x16 /* reset */
+		MX8MN_IOMUXC_GPIO1_IO08_GPIO1_IO8		0x16 /* stbyb */
+		>;
+	};
+
+	pinctrl_buzzer: buzzer {
+		fsl,pins = <
+			MX8MN_IOMUXC_SPDIF_RX_PWM2_OUT			0x06
+		>;
+	};
+
+	pinctrl_gpio_keys: keygrp {
+		fsl,pins = <
+			MX8MN_IOMUXC_ECSPI2_MISO_GPIO5_IO12		0x1c6
+		>;
+	};
+
+	pinctrl_i2c2: i2c2grp {
+		fsl,pins = <
+			MX8MN_IOMUXC_I2C2_SCL_I2C2_SCL			0x400001c3
+			MX8MN_IOMUXC_I2C2_SDA_I2C2_SDA			0x400001c3
+		>;
+	};
+
+	pinctrl_i2c4: i2c4grp {
+		fsl,pins = <
+			MX8MN_IOMUXC_I2C4_SCL_I2C4_SCL			0x400001c3
+			MX8MN_IOMUXC_I2C4_SDA_I2C4_SDA			0x400001c3
+		>;
+	};
+
+	pinctrl_i2c2_gpio: i2c2grp-gpio {
+		fsl,pins = <
+			MX8MN_IOMUXC_I2C2_SCL_GPIO5_IO16		0x1c3
+			MX8MN_IOMUXC_I2C2_SDA_GPIO5_IO17		0x1c3
+		>;
+	};
+
+	pinctrl_i2c4_gpio: i2c4grp-gpio {
+		fsl,pins = <
+			MX8MN_IOMUXC_I2C4_SCL_GPIO5_IO20		0x1c3
+			MX8MN_IOMUXC_I2C4_SDA_GPIO5_IO21		0x1c3
+		>;
+	};
+
+	pinctrl_uart4: uart4grp {
+		fsl,pins = <
+			MX8MN_IOMUXC_UART4_RXD_UART4_DCE_RX		0x140
+			MX8MN_IOMUXC_UART4_TXD_UART4_DCE_TX		0x140
+		>;
+	};
+};
+
+&i2c2 {
+	clock-frequency = <100000>;
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_i2c2>;
+	pinctrl-1 = <&pinctrl_i2c2_gpio>;
+	scl-gpios = <&gpio5 16 GPIO_ACTIVE_HIGH>;
+	sda-gpios = <&gpio5 17 GPIO_ACTIVE_HIGH>;
+	status = "okay";
+};
+
+&i2c4 {
+	clock-frequency = <400000>;
+	pinctrl-names = "default", "gpio";
+	pinctrl-0 = <&pinctrl_i2c4>;
+	pinctrl-1 = <&pinctrl_i2c4_gpio>;
+	scl-gpios = <&gpio5 20 GPIO_ACTIVE_HIGH>;
+	sda-gpios = <&gpio5 21 GPIO_ACTIVE_HIGH>;
+	status = "okay";
+	
+	gt911@14 {
+			compatible = "goodix,gt911";
+			reg = <0x14>; /* I2C address of GT911. This can also be xBB or x28 or x29 */
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_touch>; /* This controls the backlight which we are not using (pwmB) */
+			interrupt-parent = <&gpio5>; 
+			interrupts = <26 IRQ_TYPE_EDGE_RISING>;
+			irq-gpios = <&gpio5 26 GPIO_ACTIVE_HIGH>; /* This pin should be active when bluetooth function is disabled */ 
+			reset-gpios = <&gpio5 25 GPIO_ACTIVE_HIGH>; /* This pin should be active when bluetooth function is disabled */ 
+                       touchscreen-size-x = <800>; /* pixel size width */
+		        touchscreen-size-y = <480>; /* pixel size height */
+		        status = "okay";
+			wakeup-source;
+	};
+};
+
+&pwm2 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_buzzer>;
+};
+
+&snvs_pwrkey {
+	status = "okay";
+};
+
+&snvs_rtc {
+	status = "disabled";
+};
+
+/* Console */
+&uart4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart4>;
+	status = "okay";
+	/delete-property/ dmas;
+	/delete-property/ dma-names;
+};
+
+&usbotg1 {
+	dr_mode = "peripheral";
+	picophy,pre-emp-curr-control = <3>;
+	picophy,dc-vol-level-adjust = <7>;
+	hnp-disable;
+	srp-disable;
+	adp-disable;
+	status = "okay";
+};
