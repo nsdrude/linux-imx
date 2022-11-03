@@ -52,6 +52,22 @@
 	};
 };
 
+&cameradev {
+	status = "disabled";
+};
+
+&ecspi1 {
+	status = "disabled";
+};
+
+&fec1 {
+	status = "disabled";
+};
+
+&flexspi {
+	status = "disabled";
+};
+
 &gpio5 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_vw_lvds>;
@@ -190,6 +206,10 @@
 	status = "disabled";
 };
 
+&uart2 {
+	status = "disabled";
+};
+
 /* Console */
 &uart4 {
 	pinctrl-names = "default";
@@ -207,4 +227,16 @@
 	srp-disable;
 	adp-disable;
 	status = "okay";
+};
+
+&sai5 {
+	status = "disabled";
+};
+
+&spdif1 {
+	status = "disabled";
+};
+
+&wm8904 {
+	status = "disabled";
 };
