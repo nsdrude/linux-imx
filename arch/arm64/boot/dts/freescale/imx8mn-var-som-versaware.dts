@@ -50,6 +50,10 @@
 			wakeup-source;
 		};
 	};
+
+	sound-wm8904 {
+		status = "disabled";
+	};
 };
 
 &cameradev {
