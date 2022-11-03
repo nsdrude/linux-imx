@@ -68,6 +68,18 @@
 	status = "disabled";
 };
 
+&gpio2 {
+	pinctrl-names = "defualt";
+	pinctrl-0 = <&pinctrl_bt>;
+
+	/* disable buffer on som */
+	bt-buffer {
+		gpio-hog;
+		gpios = <6 GPIO_ACTIVE_HIGH>;
+		output-high;
+	};
+};
+
 &gpio5 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_vw_lvds>;
@@ -106,6 +118,12 @@
 		MX8MN_IOMUXC_UART2_RXD_GPIO5_IO24		0x16 /* backlight */
 		MX8MN_IOMUXC_UART3_TXD_GPIO5_IO27		0x16 /* reset */
 		MX8MN_IOMUXC_GPIO1_IO08_GPIO1_IO8		0x16 /* stbyb */
+		>;
+	};
+
+	pinctrl_batmon: batmon {
+		fsl,pins = <
+			MX8MN_IOMUXC_SAI3_TXFS_GPIO4_IO31			0x06
 		>;
 	};
 
@@ -165,6 +183,13 @@
 	scl-gpios = <&gpio5 16 GPIO_ACTIVE_HIGH>;
 	sda-gpios = <&gpio5 17 GPIO_ACTIVE_HIGH>;
 	status = "okay";
+
+	mcp3021@4e {
+		compatible = "microchip,mcp3021";
+		reg = <0x4e>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_batmon>;
+	};
 };
 
 &i2c4 {
