@@ -103,6 +103,18 @@
 
 
 &iomuxc {
+	pinctrl-names = "defualt";
+	pinctrl-0 = <&pinctrl_bat_chg>;
+
+	pinctrl_bat_chg: bat_chg {
+		fsl,pins = <
+			MX8MN_IOMUXC_GPIO1_IO13_GPIO1_IO13		0x1c3
+			MX8MN_IOMUXC_SAI3_TXC_GPIO5_IO0			0x1c3
+			MX8MN_IOMUXC_SAI3_RXD_GPIO4_IO30		0x1c3
+			MX8MN_IOMUXC_SAI3_RXC_GPIO4_IO29		0x1c3
+                >;
+	};
+
 	pinctrl_leds: leds {
 		fsl,pins = <
 			MX8MN_IOMUXC_ECSPI2_MOSI_GPIO5_IO11         	0x16
