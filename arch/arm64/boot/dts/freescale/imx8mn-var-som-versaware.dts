@@ -291,6 +291,14 @@
 	};
 };
 
+&reg_audio {
+	status = "disabled";
+};
+
+&reg_eth_phy {
+	status = "disabled";
+};
+
 &snvs_pwrkey {
 	status = "okay";
 };
