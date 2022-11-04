@@ -274,10 +274,6 @@
 	status = "disabled";
 };
 
-&spdif1 {
-	status = "disabled";
-};
-
 &wm8904 {
 	status = "disabled";
 };
