@@ -54,6 +54,24 @@
 	sound-wm8904 {
 		status = "disabled";
 	};
+
+	weight_reg: regulator-weight {
+		compatible = "regulator-fixed";
+		regulator-name = "loadcell";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+	};
+
+	weight {
+		compatible = "avia,hx711";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_weight>;
+
+		sck-gpios = <&gpio5 3 GPIO_ACTIVE_HIGH>;
+		dout-gpios = <&gpio5 13 GPIO_ACTIVE_HIGH>;
+		clock-frequency = <100000>;
+		avdd-supply = <&weight_reg>;
+	};
 };
 
 &cameradev {
@@ -187,6 +205,13 @@
 		fsl,pins = <
 			MX8MN_IOMUXC_UART4_RXD_UART4_DCE_RX		0x140
 			MX8MN_IOMUXC_UART4_TXD_UART4_DCE_TX		0x140
+		>;
+	};
+
+	pinctrl_weight: weight {
+		fsl,pins = <
+			MX8MN_IOMUXC_ECSPI2_SS0_GPIO5_IO13		0x1c3
+			MX8MN_IOMUXC_SPDIF_TX_GPIO5_IO3		0x1c3
 		>;
 	};
 };
