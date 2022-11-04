@@ -264,6 +264,33 @@
 	pinctrl-0 = <&pinctrl_buzzer>;
 };
 
+&dsi_lvds_bridge {
+	ti,dsi-lanes = <1>;
+	ti,lvds-format = <2>; /* done, format 1 <1> must be selected when RGB888(24bpp) data is received from DSI */
+	ti,lvds-bpp = <24>; /* done, 24 bits of data each lane */
+	ti,lvds-channels = <1>; /* done, one main channel */
+	ti,width-mm = <108>; /* done, pixel active area width */
+	ti,height-mm = <65>; /* done, pixel active area height */
+
+	display-timings {
+		lvds {
+			clock-frequency = <25000000>; /* done, changed from 33MHz to 25MHz */
+			hactive = <800>; /* done, unchanged pixel height */
+			vactive = <480>; /* done, unchanged pixel height */
+			hback-porch = <8>; /* done, changed hback from 40 to 8 */
+			hfront-porch = <8>; /* done, changed hfront from 40 to 8 */
+			vback-porch = <8>; /* done, changed vback from 29 to 8 */
+			vfront-porch = <8>; /* done, changed vfront from 13 to 8 */
+			hsync-len = <4>; /* done, changed hsync from 48 to 4. Related to pulse width */
+			vsync-len = <4>; /* done, changed vsync from 3 to 4. Related to pulse width */
+			hsync-active = <0>; /* done, unchanged but may need to test */
+			vsync-active = <0>; /* done, unchanged but may need to test */
+			de-active = <1>; /* done, unchanged but may need to test */
+			pixelclk-active = <0>; /* done, unchanged but may need to test */
+		};
+	};
+};
+
 &snvs_pwrkey {
 	status = "okay";
 };
