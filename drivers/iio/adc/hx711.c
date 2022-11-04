@@ -494,8 +494,9 @@ static int hx711_probe(struct platform_device *pdev)
 	 */
 	hx711_data->gpiod_pd_sck = devm_gpiod_get(dev, "sck", GPIOD_OUT_LOW);
 	if (IS_ERR(hx711_data->gpiod_pd_sck)) {
-		dev_err(dev, "failed to get sck-gpiod: err=%ld\n",
-					PTR_ERR(hx711_data->gpiod_pd_sck));
+		if (PTR_ERR(hx711_data->gpiod_pd_sck) != -EPROBE_DEFER)
+			dev_err(dev, "failed to get sck-gpiod: err=%ld\n",
+						PTR_ERR(hx711_data->gpiod_pd_sck));
 		return PTR_ERR(hx711_data->gpiod_pd_sck);
 	}
 
@@ -505,8 +506,9 @@ static int hx711_probe(struct platform_device *pdev)
 	 */
 	hx711_data->gpiod_dout = devm_gpiod_get(dev, "dout", GPIOD_IN);
 	if (IS_ERR(hx711_data->gpiod_dout)) {
-		dev_err(dev, "failed to get dout-gpiod: err=%ld\n",
-					PTR_ERR(hx711_data->gpiod_dout));
+		if (PTR_ERR(hx711_data->gpiod_dout) != -EPROBE_DEFER)
+			dev_err(dev, "failed to get dout-gpiod: err=%ld\n",
+						PTR_ERR(hx711_data->gpiod_dout));
 		return PTR_ERR(hx711_data->gpiod_dout);
 	}
 
