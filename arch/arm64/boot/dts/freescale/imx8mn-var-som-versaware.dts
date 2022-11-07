@@ -321,7 +321,7 @@
 };
 
 &usbotg1 {
-	dr_mode = "peripheral";
+	dr_mode = "host";
 	picophy,pre-emp-curr-control = <3>;
 	picophy,dc-vol-level-adjust = <7>;
 	hnp-disable;
