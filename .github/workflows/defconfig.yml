@@ -1,0 +1,26 @@
+name: Verify minimal defconfig
+on: push
+
+jobs:
+  verify-defconfig:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
+
+      - name: Verify minimal defconfig
+        run: |
+          for defconfig in $(ls -1 arch/arm64/configs | grep -E 'imx8.*var.*defconfig'); do
+            make ARCH=arm64 $defconfig
+            make ARCH=arm64 savedefconfig
+            echo "diff arch/arm64/configs/$defconfig defconfig"
+            diff arch/arm64/configs/$defconfig defconfig
+            if [ $? -ne 0 ]; then
+              echo "Error: $defconfig doesn't match savedefconfig:"
+              diff arch/arm64/configs/$defconfig defconfig
+              exit 1
+            fi
+          done
