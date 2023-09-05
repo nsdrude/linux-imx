@@ -27,34 +27,6 @@
 	};
 };
 
-&eqos {
-	mdio {
-		ethphy1: ethernet-phy@1 {
-			compatible = "ethernet-phy-ieee802.3-c22";
-			reg = <1>;
-			at803x,eee-disabled;
-			eee-broken-1000t;
-			reset-gpios = <&pca6408_2 0 GPIO_ACTIVE_LOW>;
-			reset-assert-us = <10000>;
-			reset-deassert-us = <20000>;
-			vddio-supply = <&vddio1>;
-
-			vddio1: vddio-regulator {
-				regulator-min-microvolt = <1800000>;
-				regulator-max-microvolt = <1800000>;
-			};
-		};
-	};
-};
-
-&fec {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_fec>;
-	phy-mode = "rgmii";
-	phy-handle = <&ethphy1>;
-	status = "okay";
-};
-
 &flexspi {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_flexspi0>;
@@ -150,14 +122,6 @@
 	scl-gpios = <&gpio5 20 GPIO_ACTIVE_HIGH>;
 	sda-gpios = <&gpio5 21 GPIO_ACTIVE_HIGH>;
 	status = "okay";
-
-	pca6408_2: gpio@21 {
-		compatible = "nxp,pcal6408";
-		standard-regs-fallback;
-		reg = <0x21>;
-		gpio-controller;
-		#gpio-cells = <2>;
-	};
 };
 
 &iomuxc {
@@ -225,24 +189,6 @@
 	pinctrl_gpio_leds: ledgrp {
 		fsl,pins = <
 			MX8MP_IOMUXC_SAI1_RXD3__GPIO4_IO05				0xc6
-		>;
-	};
-
-	/* looks like we need this to make eth0 work */
-	pinctrl_fec: fecgrp {
-		fsl,pins = <
-			MX8MP_IOMUXC_SAI1_RXD4__ENET1_RGMII_RD0				0x90
-			MX8MP_IOMUXC_SAI1_RXD5__ENET1_RGMII_RD1				0x90
-			MX8MP_IOMUXC_SAI1_RXD6__ENET1_RGMII_RD2				0x90
-			MX8MP_IOMUXC_SAI1_RXD7__ENET1_RGMII_RD3				0x90
-			MX8MP_IOMUXC_SAI1_TXC__ENET1_RGMII_RXC				0x90
-			MX8MP_IOMUXC_SAI1_TXFS__ENET1_RGMII_RX_CTL			0x90
-			MX8MP_IOMUXC_SAI1_TXD0__ENET1_RGMII_TD0				0x00
-			MX8MP_IOMUXC_SAI1_TXD1__ENET1_RGMII_TD1				0x00
-			MX8MP_IOMUXC_SAI1_TXD2__ENET1_RGMII_TD2				0x00
-			MX8MP_IOMUXC_SAI1_TXD3__ENET1_RGMII_TD3				0x00
-			MX8MP_IOMUXC_SAI1_TXD4__ENET1_RGMII_TX_CTL			0x00
-			MX8MP_IOMUXC_SAI1_TXD5__ENET1_RGMII_TXC				0x00
 		>;
 	};
 
