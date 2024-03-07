@@ -639,6 +639,7 @@ struct mxl86111_priv {
 	 * MXL86111_EXT_SMI_SDS_PHY_AUTO
 	 */
 	u8 reg_page;
+	int port;
 };
 
 /**
@@ -974,21 +975,21 @@ static int mxl86111_probe(struct phy_device *phydev)
 	switch (priv->strap_mode) {
 	case MXL86111_EXT_CHIP_CFG_MODE_UTP_TO_SGMII:
 	case MXL86111_EXT_CHIP_CFG_MODE_UTP_TO_RGMII:
-		phydev->port = PORT_TP;
+		priv->port = PORT_TP;
 		priv->reg_page = MXL86111_EXT_SMI_SDS_PHYUTP_SPACE;
 		priv->reg_page_mode = MXL86111_MODE_UTP;
 		break;
 	case MXL86111_EXT_CHIP_CFG_MODE_FIBER_TO_RGMII:
 	case MXL86111_EXT_CHIP_CFG_MODE_SGPHY_TO_RGMAC:
 	case MXL86111_EXT_CHIP_CFG_MODE_SGMAC_TO_RGPHY:
-		phydev->port = PORT_FIBRE;
+		priv->port = PORT_FIBRE;
 		priv->reg_page = MXL86111_EXT_SMI_SDS_PHYFIBER_SPACE;
 		priv->reg_page_mode = MXL86111_MODE_FIBER;
 		break;
 	case MXL86111_EXT_CHIP_CFG_MODE_UTP_FIBER_TO_RGMII:
 	case MXL86111_EXT_CHIP_CFG_MODE_UTP_TO_FIBER_AUTO:
 	case MXL86111_EXT_CHIP_CFG_MODE_UTP_TO_FIBER_FORCE:
-		phydev->port = PORT_NONE;
+		priv->port = PORT_NONE;
 		priv->reg_page = MXL86111_EXT_SMI_SDS_PHY_AUTO;
 		priv->reg_page_mode = MXL86111_MODE_AUTO;
 		break;
@@ -1873,10 +1874,10 @@ static int mxl86111_read_status(struct phy_device *phydev)
 			    priv->reg_page == MXL86111_EXT_SMI_SDS_PHY_AUTO) {
 				priv->reg_page = page;
 
-				phydev->port = (page == MXL86111_EXT_SMI_SDS_PHYFIBER_SPACE) ? PORT_FIBRE : PORT_TP;
+				priv->port = (page == MXL86111_EXT_SMI_SDS_PHYFIBER_SPACE) ? PORT_FIBRE : PORT_TP;
 
 				phydev_info(phydev, "%s, link up, media: %s\n", __func__,
-					    (phydev->port == PORT_TP) ? "UTP" : "Fiber");
+					    (priv->port == PORT_TP) ? "UTP" : "Fiber");
 			}
 			phydev->link = 1;
 		} else {
@@ -1886,14 +1887,14 @@ static int mxl86111_read_status(struct phy_device *phydev)
 				 * to UTP. This needs to be detected and FIBER link reported as down.
 				 */
 				phydev_info(phydev, "%s, link down, media: %s\n",
-					    __func__, (phydev->port == PORT_TP) ? "UTP" : "Fiber");
+					    __func__, (priv->port == PORT_TP) ? "UTP" : "Fiber");
 
 				/* When in MXL86111_MODE_AUTO mode, prepare to detect the next activation mode
 				 * to support Dual Media mode
 				 */
 				if (priv->reg_page_mode == MXL86111_MODE_AUTO) {
 					priv->reg_page = MXL86111_EXT_SMI_SDS_PHY_AUTO;
-					phydev->port = PORT_NONE;
+					priv->port = PORT_NONE;
 				}
 				phydev->link = 0;
 			}
@@ -1901,14 +1902,14 @@ static int mxl86111_read_status(struct phy_device *phydev)
 	} else {
 		if (phydev->link == 1) {
 			phydev_info(phydev, "%s, link down, media: %s\n",
-				    __func__, (phydev->port == PORT_TP) ? "UTP" : "Fiber");
+				    __func__, (priv->port == PORT_TP) ? "UTP" : "Fiber");
 
 			/* When in MXL86111_MODE_AUTO mode, arbitration will be prepare
 			 * to support Dual Media mode
 			 */
 			if (priv->reg_page_mode == MXL86111_MODE_AUTO) {
 				priv->reg_page = MXL86111_EXT_SMI_SDS_PHY_AUTO;
-				phydev->port = PORT_NONE;
+				priv->port = PORT_NONE;
 			}
 		}
 
