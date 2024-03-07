@@ -271,9 +271,9 @@ static int mxlphy_locked_write_extended_reg(struct phy_device *phydev, u16 regnu
 {
 	int ret;
 
-	phy_lock_mdio_bus(phydev);
+	mutex_lock(&phydev->mdio.bus->mdio_lock);
 	ret = mxlphy_write_extended_reg(phydev, regnum, val);
-	phy_unlock_mdio_bus(phydev);
+	mutex_unlock(&phydev->mdio.bus->mdio_lock);
 
 	return ret;
 }
@@ -310,9 +310,9 @@ static int mxlphy_locked_read_extended_reg(struct phy_device *phydev, u16 regnum
 {
 	int ret;
 
-	phy_lock_mdio_bus(phydev);
+	mutex_lock(&phydev->mdio.bus->mdio_lock);
 	ret = mxlphy_read_extended_reg(phydev, regnum);
-	phy_unlock_mdio_bus(phydev);
+	mutex_unlock(&phydev->mdio.bus->mdio_lock);
 
 	return ret;
 }
@@ -357,9 +357,9 @@ static int mxlphy_locked_modify_extended_reg(struct phy_device *phydev, u16 regn
 {
 	int ret;
 
-	phy_lock_mdio_bus(phydev);
+	mutex_lock(&phydev->mdio.bus->mdio_lock);
 	ret = mxlphy_modify_extended_reg(phydev, regnum, mask, set);
-	phy_unlock_mdio_bus(phydev);
+	mutex_unlock(&phydev->mdio.bus->mdio_lock);
 
 	return ret;
 }
@@ -673,9 +673,9 @@ static int mxl86111_locked_read_page(struct phy_device *phydev)
 {
 	int old_page;
 
-	phy_lock_mdio_bus(phydev);
+	mutex_lock(&phydev->mdio.bus->mdio_lock);
 	old_page = mxl86111_read_page(phydev);
-	phy_unlock_mdio_bus(phydev);
+	mutex_unlock(&phydev->mdio.bus->mdio_lock);
 
 	return old_page;
 };
