@@ -9,5 +9,5 @@
 #include "imx91-var-som-symphony.dtsi"
 
 / {
-	model = "Variscite VAR-SOM-MX91 2.x and newer on Symphony-Board";
+	model = "Variscite VAR-SOM-MX91 on Symphony-Board";
 };
